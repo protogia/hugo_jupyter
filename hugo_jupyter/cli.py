@@ -26,7 +26,8 @@ from docopt import docopt
 
 def main(argv=None):
     args = docopt(__doc__, argv=argv, version='1.0.3')
-    assert 'config.toml' in (p.name for p in Path().iterdir()), "config.toml not found in directory. Are you sure you're in the project's root?"
+    if 'config.toml' not in (p.name for p in Path().iterdir()) and 'hugo.toml' not in (p.name for p in Path().iterdir()):
+        raise FileNotFoundError("config.toml not found in directory. Are you sure you're in the project's root?")
     if args['--init']:
         notebooks_dir = Path('./notebooks/')
         notebooks_dir.mkdir(exist_ok=True)
